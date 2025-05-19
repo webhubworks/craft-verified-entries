@@ -1,0 +1,42 @@
+{% import "_includes/forms" as forms %}
+
+<fieldset>
+    <legend class="h6 status-label">
+        {% if isVerified %}
+            <span data-icon="circle-check" class="cp-icon puny"></span>
+        {% endif %}
+        <span>Verification</span>
+    </legend>
+
+    <div class="meta">
+        {{ forms.selectizeField({
+            label:
+                (not isVerified ? '<span data-icon="alert"></span>') ~ 'Verified until',
+            id: 'verifiedUntilDate',
+            name: 'verifiedUntilDate',
+            options: options,
+            selectizeOptions: {
+                allowEmptyOption: false,
+                autocomplete: false,
+            },
+            includeEnvVars: false,
+            value: verifiedUntilDate ? verifiedUntilDate|date('Y-m-d') : false,
+            addOptionLabel: 'Specific Date',
+            addOptionFn: addOptionFn,
+        }) }}
+
+        {{ forms.elementSelectField({
+            label: 'Reviewer',
+            id: 'reviewerId',
+            name: 'reviewerId',
+            elementType: 'craft\\elements\\User',
+            single: true,
+            selectionLabel: 'Choose'|t('app'),
+            elements: reviewer ? [reviewer] : [],
+            criteria: {
+                status: 'active',
+                can: 'verifyEntries',
+            }
+        }) }}
+    </div>
+</fieldset>

@@ -1,0 +1,48 @@
+{
+  "name": "webhubworks/craft-verified-entries",
+  "description": "Verified Entries is a Craft CMS plugin that enables editors to take ownership of entries, verify them periodically, and set an expiration date for validity. It helps maintain content freshness by sending reminders to review and update entries before they become outdated.",
+  "type": "craft-plugin",
+  "license": "proprietary",
+  "support": {
+    "email": "support@webhub.de",
+    "issues": "https://github.com/webhubworks/craft-verified-entries/issues?state=open",
+    "source": "https://github.com/webhubworks/craft-verified-entries",
+    "docs": "https://github.com/webhubworks/craft-verified-entries",
+    "rss": "https://github.com/webhubworks/craft-verified-entries/releases.atom"
+  },
+  "require": {
+    "php": ">=8.2",
+    "craftcms/cms": "^5.6.0"
+  },
+  "require-dev": {
+    "craftcms/ecs": "dev-main",
+    "craftcms/phpstan": "dev-main"
+  },
+  "autoload": {
+    "psr-4": {
+      "webhubworks\\verifiedentries\\": "src/"
+    }
+  },
+  "extra": {
+    "handle": "verified-entries",
+    "name": "Verified Entries",
+    "developer": "webhubworks",
+    "documentationUrl": "https://github.com/webhubworks/craft-verified-entries",
+    "class": "webhubworks\\verifiedentries\\VerifiedEntries"
+  },
+  "scripts": {
+    "check-cs": "ecs check --ansi",
+    "fix-cs": "ecs check --ansi --fix",
+    "phpstan": "phpstan --memory-limit=1G"
+  },
+  "config": {
+    "sort-packages": true,
+    "platform": {
+      "php": "8.2"
+    },
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true,
+      "craftcms/plugin-installer": true
+    }
+  }
+}

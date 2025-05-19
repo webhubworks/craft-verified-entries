@@ -1,0 +1,17 @@
+<div class="entriestoreview-container">
+    {% if entries|length %}
+        <ol class="widget__list" role="list">
+            {% for entry in entries %}
+                <li class="widget__list-item status-label">
+                    <span class="status pending"></span>
+                    <a href="{{ entry.getCpEditUrl() }}">{{ entry.title }}</a>
+                    <span class="light">
+                        {{ 'Expiry Date'|t('app') }}: {{ entry.verifiedUntilDate|timestamp('short') }}
+                    </span>
+                </li>
+            {% endfor %}
+        </ol>
+    {% else %}
+        <p class="zilch small">{{ "No entries exist yet."|t('app') }}</p>
+    {% endif %}
+</div>

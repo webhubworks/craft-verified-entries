@@ -1,0 +1,90 @@
+{% extends '_layouts/cp.twig' %}
+
+{% set title = 'Settings'|t('app') %}
+{% set fullPageForm = true %}
+{% set selectedSubnavItem = 'settings' %}
+{% set crumbs = [
+    { label: 'Verified Entries'|t('verified-entries'), url: url('verified-entries') }
+] %}
+
+{% do view.registerAssetBundle('craft\\web\\assets\\admintable\\AdminTableAsset') -%}
+
+{% import '_includes/forms.twig' as forms %}
+
+{% set formActions = [
+    {
+        label: 'Save'|t('app'),
+        shortcut: true,
+        retainScroll: true,
+    },
+] %}
+
+{% block content %}
+    {{ actionInput('verified-entries/section-settings/save') }}
+    {{ redirectInput('verified-entries/settings') }}
+
+    <div id="sections-container" class="tablepane">
+        <table id="sections" class="data fullwidth">
+            <thead>
+                <th scope="col">{{ 'Section'|t('app') }}-{{ 'Name'|t('app') }}</th>
+                <th scope="col">{{ 'Section Type'|t('app') }}</th>
+                <th scope="col">{{ 'Enabled'|t('app') }}</th>
+                <th scope="col">{{ 'Default Reviewer'|t('verified-entries') }}</th>
+                <th scope="col">{{ 'Default Period'|t('verified-entries') }}</th>
+            </thead>
+            <tbody>
+                {% for section in sections %}
+                    {% set ns = 'sections[' ~ section.id ~ ']' %}
+                    {% namespace ns %}
+                        <tr
+                            data-id="{{ section.id }}"
+                            data-uid="{{ section.uid }}"
+                            data-name="{{ section.name }}"
+                        >
+                            <th scope="row" data-title="{{ 'Name'|t('app') }}">
+                                {{ section.name }}
+                            </th>
+                            <td>{{ section.type|ucfirst|t('app') }}</td>
+                            <td>
+                                {{ forms.lightswitch({
+                                    name: 'enabled',
+                                    on: section.enabled
+                                }) }}
+                            </td>
+                            <td>
+                                {{ forms.elementSelect({
+                                    name: 'reviewerId',
+                                    elementType: 'craft\\elements\\User',
+                                    elements: section.reviewerId ? [section.reviewer] : [],
+                                    criteria: {
+                                        status: 'active',
+                                        can: 'verifyEntries'
+                                    },
+                                    limit: 1,
+                                    hideSidebar: true,
+                                }) }}
+                            </td>
+                            <td>
+                                {{ forms.select({
+                                    name: 'defaultPeriod',
+                                    options: defaultPeriodOptions,
+                                    value: section.defaultPeriod,
+                                }) }}
+                            </td>
+                        </tr>
+                    {% endnamespace %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% js %}
+    new Craft.AdminTable({
+        tableSelector: '#sections',
+        minItems: 1,
+        sortable: true,
+    })
+
+    Craft.initUiElements(document.getElementById('sections-container'));
+{% endjs %}

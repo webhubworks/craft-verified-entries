@@ -1,0 +1,18 @@
+{% import "_includes/forms" as forms %}
+
+{{ forms.selectField({
+    label: 'Verify for'|t('verified-entries'),
+    id: 'verificationPeriod',
+    name: 'verificationPeriod',
+    options: periodOptions,
+    toggle: true
+}) }}
+
+<div id="specific-date" class="hidden">
+    {{ forms.dateField({
+        label: 'Date'|t('app'),
+        id: 'specificDate',
+        name: 'specificDate',
+        value: now,
+    }) }}
+</div>

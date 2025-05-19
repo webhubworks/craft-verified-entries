@@ -1,0 +1,50 @@
+{% set verifiedLength = verifiedCount / totalCount * 100 %}
+{% set expiredLength = expiredCount / totalCount * 100 %}
+
+<div class="verificationhealth-container">
+    <svg viewBox="0 0 100 8" preserveAspectRatio="xMidYMid slice" height="8" width="100%" class="widget-heading">
+        <rect x="0" y="0" width="100" height="100%" fill="var(--gray-200)"/>
+        <rect x="0" y="0" width="{{ verifiedLength }}" height="100%" fill="var(--enabled-color)"/>
+        <rect x="{{ verifiedLength }}" y="0" width="{{ expiredLength }}" height="100%" fill="var(--pending-color)"/>
+    </svg>
+
+    <div class="mt-4">
+        <ol class="widget__list" role="list">
+            <li class="widget__list-item status-label">
+                <span class="status live"></span>
+                {{ 'Verified'|t('verified-entries') }}:
+                <span class="light">{{ verifiedCount }} {{ 'Entries'|t('app') }}</span>
+            </li>
+            <li class="widget__list-item status-label">
+                <span class="status pending"></span>
+                {{ 'Expired'|t('verified-entries') }}:
+                <span class="light">{{ expiredCount }} {{ 'Entries'|t('app') }}</span>
+            </li>
+            <li class="widget__list-item status-label">
+                <span class="status gray"></span>
+                {{ 'Total'|t('app') }}:
+                <span class="light">{{ totalCount }} {{ 'Entries'|t('app') }}</span>
+            </li>
+        </ol>
+    </div>
+</div>
+
+{% css %}
+    .verificationhealth-container svg {
+        border-radius: var(--s);
+        overflow: hidden;
+    }
+
+    .verificationhealth-container .widget__list-item {
+        display: block;
+    }
+
+    .verificationhealth-container .light {
+        display: inline-block;
+        float: right;
+    }
+
+    .verificationhealth-container .widget__list-item .status {
+        top: 2px;
+    }
+{% endcss %}

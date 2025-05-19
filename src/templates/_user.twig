@@ -1,0 +1,63 @@
+{% do view.registerAssetBundle('craft\\web\\assets\\admintable\\AdminTableAsset') -%}
+
+{% do view.registerTranslations('app', [
+    'Name',
+    'Section',
+    'Date Updated',
+]) %}
+
+<h2>{{ 'Sections'|t('app') }}</h2>
+
+{% if sections|length %}
+    <table id="sections" class="data fullwidth">
+        <thead>
+            <th scope="col">{{ 'Name'|t('app') }}</th>
+            <th scope="col">{{ 'Default Period'|t('verified-entries') }}</th>
+        </thead>
+        <tbody>
+            {% for section in sections %}
+                <tr>
+                    <th scope="row" data-title="{{ 'Name'|t('app') }}">
+                        <a href="{{ cpUrl('entries/' ~ section.handle) }}">{{ section.name }}</a>
+                    </th>
+                    <td>
+                        {{ section.defaultPeriod }}
+                    </td>
+                </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <div class="zilch small">
+        <p>{{ 'No sections are available.'|t('app') }}</p>
+    </div>
+{% endif %}
+<hr/>
+
+<h2>{{ 'Entries'|t('app') }}</h2>
+<div class="tableview" style="overflow-x: auto; overflow-y: hidden; ">
+    <div id="entries-vue-admin-table"></div>
+</div>
+
+{% js %}
+    (() => {
+        const columns = [
+            { name: '__slot:title', title: Craft.t('app', 'Name'), sortField: true },
+            { name: 'isVerified', title: 'Verification', sortField: true },
+            { name: 'sectionName', title: Craft.t('app', 'Section'), sortField: true },
+            { name: 'verifiedUntilDate', title: 'Verified until', sortField: true },
+            { name: 'dateUpdated', title: Craft.t('app', 'Date Updated'), sortField: true },
+        ];
+
+        let config = {
+            columns,
+            container: '#entries-vue-admin-table',
+            emptyMessage: Craft.t('app', 'No sections exist yet.'),
+            tableDataEndpoint: 'verified-entries/entries/table-data&userId={{userId }}',
+            fullPane: false,
+        };
+
+        new Craft.VueAdminTable(config);
+    })();
+{% endjs %}
