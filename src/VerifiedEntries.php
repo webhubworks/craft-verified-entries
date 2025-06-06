@@ -369,6 +369,9 @@ class VerifiedEntries extends Plugin
 
                 /** @var Entry $entry */
                 $entry = $event->sender;
+                if ($entry->sectionId === null) { // ToDo: In which cases is this null and why?
+                    return;
+                }
                 [$reviewerId, $defaultPeriod] = $this->sectionSettings->getDefaultSettingsForSection($entry->sectionId);
 
                 if ($entry->reviewerId === null && $reviewerId) {
