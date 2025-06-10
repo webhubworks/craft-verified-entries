@@ -6,6 +6,7 @@ use Craft;
 use craft\base\Widget;
 use craft\elements\Entry;
 use craft\web\assets\d3\D3Asset;
+use webhubworks\verifiedentries\VerifiedEntries;
 
 /**
  * Verification Health widget type
@@ -34,7 +35,7 @@ class VerificationHealth extends Widget
 
     public function getBodyHtml(): ?string
     {
-        $view = Craft::$app->getView();
+        $enabledSectionIds = VerifiedEntries::getInstance()->sectionSettings->getEnabledSections();
 
         $totalEntryCount = Entry::find()
             ->status('live')
@@ -43,13 +44,13 @@ class VerificationHealth extends Widget
 
         $verifiedEntryCount = Entry::find()
             ->status('live')
-            ->section('*')
+            ->sectionId($enabledSectionIds)
             ->isVerified(true)
             ->count();
 
         $expiredEntryCount = Entry::find()
             ->status('live')
-            ->section('*')
+            ->sectionId($enabledSectionIds)
             ->isVerified(false)
             ->count();
 
