@@ -1,11 +1,10 @@
 # Release Notes for Verified Entries
 
-## 1.0.2
+## 1.0.3
 
 ### Fixed
 
 - Improve widget clarity
-
 
 ## 1.0.1
 
