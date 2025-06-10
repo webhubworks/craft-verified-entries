@@ -12,7 +12,7 @@ class UsersController extends Controller
 {
     use EditUserTrait;
 
-    public const string SCREEN_VERIFIED_ENTRIES = 'verified-entries';
+    public const SCREEN_VERIFIED_ENTRIES = 'verified-entries';
 
     /**
      * @inheritdoc
