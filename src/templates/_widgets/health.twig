@@ -1,5 +1,5 @@
-{% set verifiedLength = verifiedCount / totalCount * 100 %}
-{% set expiredLength = expiredCount / totalCount * 100 %}
+{% set verifiedLength = (verifiedCount / totalCount * 100)|round(0, 'ceil') %}
+{% set expiredLength = (expiredCount / totalCount * 100)|round(0, 'ceil') %}
 
 <div class="verificationhealth-container">
     <svg viewBox="0 0 100 8" preserveAspectRatio="xMidYMid slice" height="8" width="100%" class="widget-heading">
