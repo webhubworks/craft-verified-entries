@@ -310,7 +310,7 @@ class VerifiedEntries extends Plugin
                     $event->html = Cp::selectizeFieldHtml([
                         'id' => 'verifiedUntilDate',
                         'name' => 'verifiedUntilDate',
-                        'options' => VerificationService::getOptions($entry->verifiedUntilDate),
+                        'options' => VerificationService::getOptions($entry->verifiedUntilDate, $entry->getSection()->id),
                         'selectizeOptions' => [
                             'allowEmptyOption' => false,
                             'autocomplete' => false,
